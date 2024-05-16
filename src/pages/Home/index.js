@@ -14,6 +14,15 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const { data } = useData();
+  const lastEvent = data?.events
+    .map(item => ({
+      title: item.title,
+      cover: item.cover,
+      date: new Date(item.date),
+      type: item.type,
+    }))
+    .sort((eventA, eventB) => eventB.date - eventA.date)
+    .shift();
   return <>
     <header>
       <Menu />
@@ -115,13 +124,13 @@ const Page = () => {
     </main>
     <footer className="row">
       <div className="col presta">
-        <h3>Notre derniére prestation</h3>
+        <h3>Notre dernière prestation</h3>
         <EventCard
-          imageSrc={data?.events && data?.events.length > 0 ? data?.events[data.events.length - 1].cover : ""}
-          title={data?.events && data?.events.length > 0 ? data?.events[data.events.length - 1].title : ""}
-          date={data?.events && data?.events.length > 0 ? new Date(data?.events[data.events.length - 1].date) : new Date()}
+          imageSrc={lastEvent?.cover || ""}
+          title={lastEvent?.title || ""}
+          date={new Date(lastEvent?.date || Date.now())}
           small
-          label="boom"
+          label={lastEvent?.type || ""}
         />
       </div>
       <div className="col contact">
