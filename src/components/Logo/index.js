@@ -4,7 +4,7 @@ import "./style.scss";
 
 const Logo = ({ size }) => (
   <a href="/">
-    <div className="Logo">
+    <div className="Logo" data-testid="logo-testid">
       <svg
         width={size === "large" ? "160" : "130"}
         height={size === "large" ? "60" : "60"}

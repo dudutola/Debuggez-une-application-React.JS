@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import Home from "./index";
 
 describe("When Form is created", () => {
@@ -29,16 +29,31 @@ describe("When Form is created", () => {
 
 
 describe("When a page is created", () => {
-  it("a list of events is displayed", () => {
-    // to implement
+  afterEach(cleanup);
+  it("a list of events is displayed", async () => {
+    render(<Home />);
+    const eventsList = await screen.findByTestId("card-testid");
+    expect(eventsList).toBeInTheDocument();
+    expect(eventsList).toHaveTextContent("mai");
   })
   it("a list a people is displayed", () => {
-    // to implement
+    render(<Home />);
+    const listOfPeopleImages = screen.queryAllByTestId("card-image-testid");
+    expect(listOfPeopleImages.length).toBeGreaterThan(0);
+    listOfPeopleImages.forEach(image => {
+      expect(image).toBeInTheDocument();
+    });
   })
   it("a footer is displayed", () => {
-    // to implement
+    render(<Home />);
+    const footer = screen.getByTestId("footer");
+    expect(footer).toBeInTheDocument();
+    expect(footer).toHaveTextContent("prestation");
+    expect(footer).toHaveTextContent("Paris");
   })
-  it("an event card, with the last event, is displayed", () => {
-    // to implement
+  it("an event card, with the last event, is displayed", async () => {
+    render(<Home />);
+    const lastEventCard = await screen.findByTestId("card-testid");
+    expect(lastEventCard).toBeInTheDocument();
   })
 });
